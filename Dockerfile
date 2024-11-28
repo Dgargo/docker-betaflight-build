@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:22.04
 MAINTAINER betaflight
 
 # If you want to tinker with this Dockerfile on your machine do as follows:
@@ -10,10 +10,9 @@ MAINTAINER betaflight
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install software-properties-common git make ccache python curl bzip2 gcc clang libblocksruntime-dev
-RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install gcc-arm-embedded
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install software-properties-common git make ccache python3 curl bzip2 gcc clang libblocksruntime-dev build-essential libtool
+
+RUN apt-get install -y gcc-arm-none-eabi
 
 RUN mkdir -p /opt
 
@@ -29,6 +28,8 @@ ENV ARM_SDK_DIR="/usr/"
 # - OPTIONS=<options> specify build options to be used as defines during the build
 #
 # What the commands do:
+
+RUN echo "To install ARM SDK, run: make arm_sdk_install"
 
 CMD EXTRA_OPTIONS=""; \
     if [ -n ${OPTIONS} ]; then \
